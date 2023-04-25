@@ -1,0 +1,122 @@
+.agendaList {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 3em;
+    width: 100vw;
+    max-width: 400px;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5em;
+    font-size: 1em;
+    font-weight: 400;
+    margin-bottom: 1em;
+}
+
+.title .agendaName:focus {
+    outline: none;
+}
+
+.title .date {
+    font-size: 0.8em;
+    font-weight: 400;
+    color: rgba(var(--foreground-rgb), 0.4);
+}
+
+.addBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25em;
+    width: 100%;
+    padding: 0.75em;
+    border-radius: 8px;
+    color: rgba(var(--foreground-rgb), 0.7);
+    /* background: linear-gradient(to bottom, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb))); */
+
+    font-size: 0.9em;
+
+    /* box-shadow: var(--soft-shadow); */
+
+    border: 1px solid rgba(var(--foreground-rgb), 0.05);
+    transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
+}
+
+.addBtn svg {
+    width: 1.15em;
+    height: 1.15em;
+}
+
+.addBtn:hover {
+    color: rgba(var(--foreground-rgb), 1);
+    /* box-shadow: var(--soft-shadow-hover); */
+    background: rgba(var(--foreground-rgb), 0.025);
+    cursor: default;
+}
+
+.agendaItems {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0;
+}
+
+.agendaItem {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 0.5em;
+    font-size: 0.9em;
+    font-weight: 300;
+    border-radius: 8px;
+    padding: 0.75em;
+    user-select: none;
+    transition: background 0.1s ease-in-out;
+}
+
+.agendaItem .time {
+    color: rgba(var(--foreground-rgb), 0.4);
+    cursor: default;
+    /* width: 2.5em; */
+}
+
+.agendaItem .itemName {
+    width: 80%;
+}
+
+.agendaItem .itemName:focus {
+    outline: none;
+}
+
+.agendaItem svg {
+    position: absolute;
+    right: 1em;
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+    align-self: center;
+}
+
+.agendaItem:hover {
+    background: rgba(var(--foreground-rgb), 0.025);
+}
+
+.agendaItem:hover svg {
+    opacity: 0.5;
+    cursor: grab;
+}
+
+.agendaTotal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.8em;
+    color: rgba(var(--foreground-rgb), 0.3);
+}
