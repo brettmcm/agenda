@@ -29,7 +29,7 @@ function AgendaFooter (props) {
     return<div className={styles.agendaFooter}>
           <div className={styles.agendaTotal}>{props.totalMin} minutes total</div>
           <Refresh handleClear={props.handleClear} />
-          <Play handleClear={props.handleClear} />
+          {/* <Play handleClear={props.handleClear} /> */}
         </div>
   } else {
     return<div className={styles.agendaFooter}>
@@ -52,7 +52,7 @@ function AddItemBtn(props) {
 
 function AddItemInput(props) {
   return <form data-inputform className={styles.inputForm} onSubmit={props.handleAddItem}>
-    <input type="text" placeholder="Add agenda item" required="required" />
+    <input type="text" placeholder="Add agenda item" className={styles.formInput} />
     {/* <input type="number" /> */}
     {/* <button type="submit">Add</button> */}
   </form>
@@ -89,16 +89,22 @@ export default function Agenda() {
   }
 
   const handleAddItem = (e) => {
-    const addForm = document.querySelector("[data-inputform")
+    const addForm = document.querySelector("[data-inputform]")
     const newItemTitle = addForm.getElementsByTagName("input")[0].value
     addForm.reset()
     e.preventDefault()
-    addItem([ ...agendaData, 
-      {
-        title: newItemTitle,
-        time: 5
-      }
-    ]);
+    if ( newItemTitle != "" ) {
+      addItem([ ...agendaData, 
+        {
+          title: newItemTitle,
+          time: 5
+        }
+      ]);
+      addForm.getElementsByTagName("input")[0].placeholder = "Add agenda item"
+    } else {
+      addForm.getElementsByTagName("input")[0].placeholder = "Item title cannot by blank!"
+    }
+    
   };
 
   const handleClear = () => {
