@@ -17,7 +17,12 @@ function DragHandle() {
 }
 
 export default function AgendaItem(props) {
-  return <div className={styles.agendaItem}>
+  return <div className={styles.agendaItem}
+            onContextMenu={(e) => {
+                  e.preventDefault();
+                  console.log("Right Click", e.pageX, e.pageY);
+                }}
+        >
         <div className={styles.time}>{props.time}m</div>
         <div className={styles.itemName}>{props.title}</div>
         <DragHandle />

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/components/Agenda.module.css'
 import AgendaItem from './agendaItem';
 
+
 function dateDisplay () {
   const nowDate = new Date()
   const longEnUSFormatter = new Intl.DateTimeFormat('en-US', {
@@ -17,40 +18,58 @@ function dateDisplay () {
 
 function AgendaHeader() {
   return <h1 className={styles.title}>
-      <span className={styles.agendaName}>Agenda</span>
+      <span className={styles.agendaName} contentEditable="true" suppressContentEditableWarning="true">Agenda</span>
       <span className={styles.date}>{dateDisplay()}</span>
     </h1>
 }
 
 function AgendaFooter (props) {
-  return<div className={styles.agendaTotal}>
-      {props.totalMin} minutes total
+  if (props.populated) {
+    return<div className={styles.agendaTotal}>
+          <div>{props.totalMin} minutes total</div>
+          <div onClick={props.handleClear}><u>Clear agenda</u></div>
+        </div>
+  } else {
+    return<div className={styles.agendaTotal}>
+      <div>{props.totalMin} minutes total</div>
     </div>
+  }
+  
 }
 
 function AddItemBtn(props) {
-  return <a href="" className={styles.addBtn} onClick={props.handleAddItem}>
+  return <div className={styles.addBtn} onClick={props.handleAddItem}>
       <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5.75V18.25"></path>
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.25 12L5.75 12"></path>
       </svg>
 
       Add Item
-    </a>
+    </div>
 }
+
 
 export default function Agenda() {
 
-  const agendaData = [
-    {
-      title: "Item 1",
-      time: 5
-    },
-    {
-      title: "Item 2",
-      time: 10
+  useEffect(() => {
+    // define a custom handler function
+    // for the contextmenu event
+    const handleContextMenu = (e) => {
+      e.preventDefault()
     }
-  ]
+
+    // attach the event listener to 
+    // the document object
+    document.addEventListener("contextmenu", handleContextMenu)
+
+    // clean up the event listener when 
+    // the component unmounts
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu)
+    }
+  }, [])
+
+  const [agendaData, addItem] = React.useState([]);
 
   let totalMin = 0,
   agenda = agendaData,
@@ -60,10 +79,17 @@ export default function Agenda() {
   }
 
   const handleAddItem = () => {
-      // var newItem = prompt("Item", "");
-      // setItems([...items, newItem]);
-      console.log("item added");
+      addItem([ ...agendaData, 
+        {
+          title: "New Item",
+          time: 2
+        }
+      ]);
   };
+
+  const handleClear = () => {
+    addItem([]);
+  }
 
   
   
@@ -75,6 +101,6 @@ export default function Agenda() {
              <AgendaItem title={item.title} time={item.time} key={i} />
           )}
     </div>
-    <AgendaFooter totalMin={totalMin} />
+    <AgendaFooter totalMin={totalMin} populated={agendaData.length > 0 ? true : false} handleClear={handleClear} />
   </div>;
 }
