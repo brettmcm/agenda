@@ -152,9 +152,5 @@
     border: none;
     outline: none;
     background: rgba(var(--foreground-rgb), 0.025);
-    transition: background ease-in-out 0.3s;
-}
-
-.formInput.error {
-    background: rgba(255, 0, 25, 0.05);
+    transition: background ease-in-out 0.1s;
 }

@@ -101,8 +101,11 @@ export default function Agenda() {
         }
       ]);
       addForm.getElementsByTagName("input")[0].placeholder = "Add agenda item"
+      addForm.getElementsByTagName("input")[0].style.background = "rgba(var(--foreground-rgb), 0.025)"
     } else {
       addForm.getElementsByTagName("input")[0].placeholder = "Item title cannot by blank!"
+      addForm.getElementsByTagName("input")[0].style.background = "rgba(255,0,50,0.05)"
+      setTimeout(() => { addForm.getElementsByTagName("input")[0].style.background = "rgba(var(--foreground-rgb), 0.025)" }, 800);
     }
     
   };
