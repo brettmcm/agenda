@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Inter } from 'next/font/google'
 import styles from '@/styles/components/Agenda.module.css'
 import AgendaItem from './agendaItem';
+import { Refresh, Play } from './icons';
 
 
 function dateDisplay () {
@@ -25,13 +26,14 @@ function AgendaHeader() {
 
 function AgendaFooter (props) {
   if (props.populated) {
-    return<div className={styles.agendaTotal}>
-          <div>{props.totalMin} minutes total</div>
-          <div onClick={props.handleClear}><u>Clear agenda</u></div>
+    return<div className={styles.agendaFooter}>
+          <div className={styles.agendaTotal}>{props.totalMin} minutes total</div>
+          <Refresh handleClear={props.handleClear} />
+          <Play handleClear={props.handleClear} />
         </div>
   } else {
-    return<div className={styles.agendaTotal}>
-      <div>{props.totalMin} minutes total</div>
+    return<div className={styles.agendaFooter}>
+      <div className={styles.agendaTotal}>{props.totalMin} minutes total</div>
     </div>
   }
   
@@ -46,6 +48,14 @@ function AddItemBtn(props) {
 
       Add Item
     </div>
+}
+
+function AddItemInput(props) {
+  return <form data-inputform className={styles.inputForm} onSubmit={props.handleAddItem}>
+    <input type="text" placeholder="Add agenda item" required="required" />
+    {/* <input type="number" /> */}
+    {/* <button type="submit">Add</button> */}
+  </form>
 }
 
 
@@ -78,16 +88,22 @@ export default function Agenda() {
       totalMin += agenda[i].time;  //Do the math!
   }
 
-  const handleAddItem = () => {
-      addItem([ ...agendaData, 
-        {
-          title: "New Item",
-          time: 2
-        }
-      ]);
+  const handleAddItem = (e) => {
+    const addForm = document.querySelector("[data-inputform")
+    const newItemTitle = addForm.getElementsByTagName("input")[0].value
+    addForm.reset()
+    e.preventDefault()
+    addItem([ ...agendaData, 
+      {
+        title: newItemTitle,
+        time: 5
+      }
+    ]);
   };
 
   const handleClear = () => {
+    const addForm = document.querySelector("[data-inputform")
+    addForm.reset()
     addItem([]);
   }
 
@@ -95,12 +111,19 @@ export default function Agenda() {
   
   return <div className={styles.agendaList}>
     <AgendaHeader />
-    <AddItemBtn handleAddItem={handleAddItem} />
+    <AddItemInput handleAddItem={handleAddItem} />
     <div className={styles.agendaItems}>
           {agendaData.map((item, i)=>
              <AgendaItem title={item.title} time={item.time} key={i} />
           )}
     </div>
     <AgendaFooter totalMin={totalMin} populated={agendaData.length > 0 ? true : false} handleClear={handleClear} />
+
+    <dialog data-modal className={styles.dialog}>
+      <form method="dialog">
+        <input type="text" />
+        <button type="submit">Add</button>
+      </form>
+    </dialog>
   </div>;
 }
