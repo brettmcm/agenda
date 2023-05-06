@@ -110,6 +110,14 @@ export default function Agenda() {
     
   };
 
+
+  // handle time click
+  const handleTimeClick = (e) => {
+    console.log(e.pageX)
+  }
+
+
+
   const handleClear = () => {
     const addForm = document.querySelector("[data-inputform")
     addForm.reset()
@@ -123,7 +131,7 @@ export default function Agenda() {
     <AddItemInput handleAddItem={handleAddItem} />
     <div className={styles.agendaItems}>
           {agendaData.map((item, i)=>
-             <AgendaItem title={item.title} time={item.time} key={i} />
+             <AgendaItem title={item.title} time={item.time} handleTimeClick={handleTimeClick} key={i} />
           )}
     </div>
     <AgendaFooter totalMin={totalMin} populated={agendaData.length > 0 ? true : false} handleClear={handleClear} />

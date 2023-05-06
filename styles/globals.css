@@ -8,6 +8,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 245, 245, 245;
+  --gray: 125, 125, 125;
 
   --soft-shadow:
       0px 0px 1px rgba(125, 125, 125, 0.75),
