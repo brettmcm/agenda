@@ -29,16 +29,12 @@ export default function Agenda() {
 
   // init agenda data holder
   const [agendaData, addItem] = React.useState([]);
+  const [totalMin, sumMin] = React.useState([]);
 
 
   // calculate total minutes
-  let totalMin = 0,
-  agenda = agendaData,
+  let agenda = agendaData,
   i;
-  for (i = 0; i < agenda.length; i++) {
-      totalMin += agenda[i].time;
-  }
-
 
   // add an item
   const handleAddItem = (e) => {
@@ -57,11 +53,24 @@ export default function Agenda() {
       addForm.getElementsByTagName("input")[0].style.background = "rgba(var(--foreground-rgb), 0.025)"
     } else {
       addForm.getElementsByTagName("input")[0].placeholder = "Item title cannot by blank!"
-      addForm.getElementsByTagName("input")[0].style.background = "rgba(255,0,50,0.05)"
+      addForm.getElementsByTagName("input")[0].style.background = "rgba(255,0,50,0.1)"
       setTimeout(() => { addForm.getElementsByTagName("input")[0].style.background = "rgba(var(--foreground-rgb), 0.025)" }, 800);
     }
+
+    const sumValues = agenda.reduce(function(prev, cur) {
+      return prev + cur.time;
+    }, 0);
+    sumMin(sumValues, console.log("callback"));
     
   };
+
+  const triggerClick = (e) => {
+    e.setState(prevState => ({
+      agendaData: prevState.agendaData.map(
+        el => el.key === key? { ...el, time: 25 }: el
+      )
+    }))
+  }
 
 
   // handle time click
@@ -86,10 +95,13 @@ export default function Agenda() {
     <AddItemInput handleAddItem={handleAddItem} />
     <div className={styles.agendaItems}>
           {agendaData.map((item, i)=>
+          <div key={i}>
              <AgendaItem title={item.title} time={item.time} handleTimeClick={handleTimeClick} key={i} />
+          </div>
           )}
     </div>
     <AgendaFooter totalMin={totalMin} populated={agendaData.length > 0 ? true : false} handleClear={handleClear} />
+
 
     {/* <dialog data-modal className={styles.dialog}>
       {timeOptions.map((option) => (
